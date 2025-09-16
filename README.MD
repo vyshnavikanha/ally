@@ -1,7 +1,30 @@
-### Ally GraphQL API
+#### Database Layer
+- Dedicated layer manages all read and write operations to `addresses.json`
+- Resolvers interact only with this layer instead of directly modifying the file
+- Keeps code modular and allows easy migration to a real database in the future
+- A `Table` interface is defined to provide structure and consistency for interacting with different data sets, making the layer reusable and extendable
 
-A GraphQL API built with TypeScript and GraphQL Yoga.  
-Implementation demonstrates managing user addresses, creating new records, validating requests, logging details, and returning responses with request metadata.  
+#### useHeaderValidator Plugin
+- Reusable Envelop plugin validates the presence of the client header
+- Includes a skip option for introspection queries so GraphQL Playground is not blocked
+
+#### Implementation Notes
+
+##### 1. Ensuring GraphQL schema types and TypeScript types match
+- GraphQL Code Generator could be used to generate TypeScript types from the schema
+- This ensures consistency between schema and code, preventing runtime mismatches
+
+##### 2. Returning consistent, user-friendly error messages
+- A shared error-handling pattern could be applied so all resolvers return clear and consistent messages
+- Invalid inputs or missing headers can be handled gracefully without exposing internal details
+
+##### 3. Nesting the address object inside a larger schema
+- The schema can define a `User` type that includes `address` as one of its fields
+- GraphQL fragments can then be used in queries to reuse the address selection across multiple operations
+
+##### 4. Avoiding duplication across resolvers
+- Common functionality such as header validation, logging, and error handling can be implemented with Envelop plugins
+- This avoids repeated code and keeps resolvers focused on business logic
 
 ##### Ticket 1: Address Schema Update
 - Added a `state` field to the address schema
@@ -23,32 +46,5 @@ Implementation demonstrates managing user addresses, creating new records, valid
 ##### Ticket 5: Response Metadata
 - Added `requestId` from the context object to all responses
 - Provides traceable responses with both data and metadata
-
-#### Database Layer
-- Dedicated layer manages all read and write operations to `addresses.json`
-- Resolvers interact only with this layer instead of directly modifying the file
-- Keeps code modular and allows easy migration to a real database in the future
-
-#### useHeaderValidator Plugin
-- Reusable Envelop plugin validates the presence of the client header
-- Centralized validation avoids duplication across resolvers
-- Includes a skip option for introspection queries so GraphQL Playground is not blocked
-
-#### Implementation Notes
-
-###### 1. Ensuring GraphQL schema types and TypeScript types match
-- GraphQL Code Generator was used to generate TypeScript types from the schema
-- Guarantees consistency between schema and code, preventing runtime mismatches
-
-###### 2. Returning consistent, user-friendly error messages
-- Shared error-handling pattern ensures all resolvers return clear and consistent messages
-- Invalid inputs or missing headers are handled gracefully without exposing internal details
-
-###### 3. Nesting the address object inside a larger schema
-- Schema defines a `User` type that includes `address` as one of its fields.
-
-###### 4. Avoiding duplication across resolvers
-- Common functionality such as header validation, logging, and error handling is implemented with Envelop plugins
-- This eliminates repeated code and keeps resolvers focused on business logic.
 
 
