@@ -6,9 +6,15 @@ export class Logger {
   client: string = '';
 
   constructor() {
+    const formatMeta = winston.format(info => {
+      info.client = this.client;
+      info.requestId = this.requestId;
+      return info;
+    });
+
     this.winston = winston.createLogger({
       level: 'info',
-      format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
+      format: winston.format.combine(winston.format.timestamp(), formatMeta(), winston.format.json()),
       transports: [new winston.transports.Console()],
     });
   }
