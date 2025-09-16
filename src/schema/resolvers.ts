@@ -1,10 +1,15 @@
-import { getAddress } from "./address/address";
-import { Address, Args } from "./address/types";
+import { getAddress, addAddress } from './address/address';
+import { Address, Args, ArgsAddAddress } from './address/types';
 
 export const resolvers = {
   Query: {
-    address: (parent: any, args: Args, context: any, info: any): Address => {
+    address: (parent: any, args: Args, context: any, info: any): Promise<Address> => {
       return getAddress(parent, args, context);
+    },
+  },
+  Mutation: {
+    addAddress: (parent: any, args: ArgsAddAddress, context: any, info: any): Promise<Address> => {
+      return addAddress(parent, args, context);
     },
   },
 };
