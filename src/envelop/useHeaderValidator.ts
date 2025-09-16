@@ -2,12 +2,14 @@ import { GraphQLError } from 'graphql';
 import type { Plugin } from '@envelop/core';
 import type { ContextType } from '@/types';
 
+export const ANY_VALUE = Symbol();
+
 type Options = {
   name: string;
   required?: boolean;
   errorMessage?: string | ((options: Omit<Options, 'errorMessage'>) => string);
   skipIntrospection?: boolean;
-  value: string | string[];
+  value: Symbol | string | string[];
 };
 
 export const useHeaderValidator = (options: Options): Plugin<ContextType> => {
@@ -36,7 +38,7 @@ export const useHeaderValidator = (options: Options): Plugin<ContextType> => {
         throw new GraphQLError(errorMessageFn(options) || `${name} header is required`);
       }
 
-      if (headerValue === null) {
+      if (headerValue === null || value === ANY_VALUE) {
         return;
       }
 

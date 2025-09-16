@@ -6,7 +6,7 @@ import type { ContextType } from '@/types';
 
 import { buildHeaders } from './buildHeaders';
 import { useLogger } from './useLogger';
-import { useHeaderValidator } from './useHeaderValidator';
+import { useHeaderValidator, ANY_VALUE } from './useHeaderValidator';
 import { useResponseExtensions } from './useResponseExtensions';
 
 const plugins: Plugin<ContextType>[] = [
@@ -16,7 +16,7 @@ const plugins: Plugin<ContextType>[] = [
   useHeaderValidator({
     name: 'client',
     required: true,
-    value: ['app', 'web', 'mobile-web'],
+    value: ANY_VALUE,
     skipIntrospection: true,
   }),
   useParserCache() as Plugin<ContextType>,
