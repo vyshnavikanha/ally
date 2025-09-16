@@ -37,7 +37,7 @@ export const useHeaderValidator = (options: Options): Plugin<ExtendedContextType
       }
 
       if (!hasHeader && required) {
-        throw new GraphQLError(errorMessageFn(options) || 'client header is required');
+        throw new GraphQLError(errorMessageFn(options) || `${name} header is required`);
       }
 
       if (headerValue === null) {
@@ -45,11 +45,11 @@ export const useHeaderValidator = (options: Options): Plugin<ExtendedContextType
       }
 
       if (typeof value === 'string' && headerValue !== value) {
-        throw new GraphQLError(errorMessageFn(options) || 'invalid client header');
+        throw new GraphQLError(errorMessageFn(options) || `invalid ${name} header`);
       }
 
       if (Array.isArray(value) && !value.includes(headerValue)) {
-        throw new GraphQLError(errorMessageFn(options) || 'invalid client header');
+        throw new GraphQLError(errorMessageFn(options) || `invalid ${name} header`);
       }
     },
   };
