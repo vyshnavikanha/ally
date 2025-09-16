@@ -11,14 +11,14 @@ const plugins: Plugin<ContextType>[] = [
   useEngine({ parse, validate, specifiedRules, execute, subscribe }) as Plugin<ContextType>,
   buildHeaders(),
   useLogger(),
-  useParserCache() as Plugin<ContextType>,
-  useValidationCache() as Plugin<ContextType>,
   useHeaderValidator({
     name: 'client',
     required: true,
     value: ['app', 'web', 'mobile-web'],
     skipIntrospection: true,
-  }) as Plugin<ContextType>,
+  }),
+  useParserCache() as Plugin<ContextType>,
+  useValidationCache() as Plugin<ContextType>,
 ];
 
 export default plugins;
