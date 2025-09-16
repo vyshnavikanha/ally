@@ -1,5 +1,5 @@
 import type { ExecutionResult, Plugin } from '@envelop/core';
-import type { ContextType } from '../types';
+import type { ContextType } from '@/types';
 
 export const useResponseExtensions = (): Plugin<ContextType> => ({
   onExecute: ({ context }) => {

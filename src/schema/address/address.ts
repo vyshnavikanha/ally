@@ -1,6 +1,6 @@
-import db from '../../db';
-import { Address, Args, ArgsAddAddress } from './types';
 import { GraphQLError } from 'graphql';
+import db from '@/db';
+import type { Address, Args, ArgsAddAddress } from './types';
 
 const _getAddress = (username: string): Promise<Address | null> => {
   return db.tables.addresses.get(username);

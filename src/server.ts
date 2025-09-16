@@ -1,6 +1,7 @@
 import { createServer } from 'node:http';
-import { genSchema } from './schema';
 import { createYoga } from 'graphql-yoga';
+
+import { genSchema } from './schema';
 import plugins from './envelop';
 
 const yogaPort = 4000;

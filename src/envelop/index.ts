@@ -2,9 +2,10 @@ import { type Plugin, useEngine } from '@envelop/core';
 import { parse, validate, specifiedRules, execute, subscribe } from 'graphql';
 import { useParserCache } from '@envelop/parser-cache';
 import { useValidationCache } from '@envelop/validation-cache';
+import type { ContextType } from '@/types';
+
 import { buildHeaders } from './buildHeaders';
 import { useLogger } from './useLogger';
-import type { ContextType } from '../types';
 import { useHeaderValidator } from './useHeaderValidator';
 import { useResponseExtensions } from './useResponseExtensions';
 

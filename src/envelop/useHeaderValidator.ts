@@ -1,6 +1,6 @@
-import type { Plugin } from '@envelop/core';
 import { GraphQLError } from 'graphql';
-import { ContextType } from '../types';
+import type { Plugin } from '@envelop/core';
+import type { ContextType } from '@/types';
 
 type Options = {
   name: string;

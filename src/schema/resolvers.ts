@@ -1,5 +1,5 @@
 import { getAddress, addAddress } from './address/address';
-import { Address, Args, ArgsAddAddress } from './address/types';
+import type { Address, Args, ArgsAddAddress } from './address/types';
 
 export const resolvers = {
   Query: {
