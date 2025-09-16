@@ -29,8 +29,7 @@ export const useHeaderValidator = (options: Options): Plugin<ContextType> => {
 
       const clonedRequest = request.clone();
       const body = await clonedRequest.json();
-      const query = body.query || '';
-      if (isIntrospectionQuery(query) && skipIntrospection) {
+      if (body.operationName === 'IntrospectionQuery' && skipIntrospection) {
         return;
       }
 
@@ -52,21 +51,3 @@ export const useHeaderValidator = (options: Options): Plugin<ContextType> => {
     },
   };
 };
-
-function isIntrospectionQuery(query: string) {
-  if (!query) return false;
-
-  const introspectionKeywords = [
-    '__schema',
-    '__type',
-    '__typename',
-    '__Field',
-    '__Directive',
-    '__EnumValue',
-    '__InputValue',
-    '__TypeKind',
-    'IntrospectionQuery',
-  ];
-
-  return introspectionKeywords.some(keyword => query.includes(keyword));
-}
