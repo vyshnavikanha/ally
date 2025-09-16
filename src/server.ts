@@ -7,7 +7,7 @@ const yogaPort = 4000;
 
 (async () => {
   const schema = await genSchema();
-  const yoga = createYoga({ schema, plugins: plugins });
+  const yoga = createYoga({ schema, plugins });
   const server = createServer(yoga);
 
   server.listen(yogaPort, () => {
