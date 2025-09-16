@@ -3,7 +3,7 @@ import { GraphQLError } from 'graphql';
 import { ContextType } from '../types';
 
 type Options = {
-  headerName: string;
+  name: string;
   required?: boolean;
   errorMessage?: string | ((options: Omit<Options, 'errorMessage'>) => string);
   skipIntrospection?: boolean;
@@ -15,15 +15,15 @@ type ExtendedContextType = ContextType & {
 };
 
 export const useHeaderValidator = (options: Options): Plugin<ExtendedContextType> => {
-  const { headerName, required = false, errorMessage, skipIntrospection = false, value } = options;
+  const { name, required = false, errorMessage, skipIntrospection = false, value } = options;
 
   const errorMessageFn = typeof errorMessage === 'function' ? errorMessage : () => errorMessage;
 
   return {
     onContextBuilding: async ({ context }) => {
       const request = context.request;
-      const headerValue = context.request.headers.get(headerName);
-      const hasHeader = context.request.headers.has(headerName);
+      const headerValue = context.request.headers.get(name);
+      const hasHeader = context.request.headers.has(name);
 
       if (!hasHeader && !required) {
         return;

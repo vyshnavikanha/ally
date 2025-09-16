@@ -14,7 +14,7 @@ const plugins: Plugin<ContextType>[] = [
   useParserCache() as Plugin<ContextType>,
   useValidationCache() as Plugin<ContextType>,
   useHeaderValidator({
-    headerName: 'client',
+    name: 'client',
     required: true,
     value: ['app', 'web', 'mobile-web'],
     skipIntrospection: true,
