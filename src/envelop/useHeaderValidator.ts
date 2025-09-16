@@ -10,11 +10,7 @@ type Options = {
   value: string | string[];
 };
 
-type ExtendedContextType = ContextType & {
-  request: Request;
-};
-
-export const useHeaderValidator = (options: Options): Plugin<ExtendedContextType> => {
+export const useHeaderValidator = (options: Options): Plugin<ContextType> => {
   const { name, required = false, errorMessage, skipIntrospection = false, value } = options;
 
   const errorMessageFn = typeof errorMessage === 'function' ? errorMessage : () => errorMessage;
@@ -45,11 +41,11 @@ export const useHeaderValidator = (options: Options): Plugin<ExtendedContextType
       }
 
       if (typeof value === 'string' && headerValue !== value) {
-        throw new GraphQLError(errorMessageFn(options) || `invalid ${name} header`);
+        throw new GraphQLError(errorMessageFn(options) || `invalid ${name} header value`);
       }
 
       if (Array.isArray(value) && !value.includes(headerValue)) {
-        throw new GraphQLError(errorMessageFn(options) || `invalid ${name} header`);
+        throw new GraphQLError(errorMessageFn(options) || `invalid ${name} header value`);
       }
     },
   };
