@@ -4,9 +4,11 @@ import { ContextType } from '../types';
 
 export const buildHeaders = (): Plugin<ContextType> => {
   return {
-    onContextBuilding({ context, extendContext }) {
+    onParse({ context, extendContext }) {
       const requestId = uuid();
-      extendContext({ requestId: requestId });
+      extendContext({
+        requestId: requestId,
+      });
     },
   };
 };
