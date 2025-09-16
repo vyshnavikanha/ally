@@ -1,8 +1,7 @@
 # Ally GraphQL API
 
 A GraphQL API built with TypeScript and GraphQL Yoga.  
-This implementation demonstrates managing user addresses, creating new records, validating requests, logging details, and returning responses with request metadata.  
-The work was carried out as part of a sprint with five feature tickets, focusing on modularity, type safety, and clean separation between database operations, resolvers, and shared utilities.
+Implementation demonstrates managing user addresses, creating new records, validating requests, logging details, and returning responses with request metadata.  
 
 ## Features Implemented
 
