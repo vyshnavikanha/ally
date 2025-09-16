@@ -8,6 +8,7 @@ export const buildHeaders = (): Plugin<ContextType> => {
       const requestId = uuid();
       extendContext({
         requestId: requestId,
+        client: context.request.headers.get('client') || '',
       });
     },
   };

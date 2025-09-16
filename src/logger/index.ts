@@ -1,8 +1,10 @@
 import winston from 'winston';
 
 export class Logger {
-  private winston: any;
+  private winston: winston.Logger;
   requestId: string = '';
+  client: string = '';
+
   constructor() {
     this.winston = winston.createLogger({
       level: 'info',
@@ -13,6 +15,10 @@ export class Logger {
 
   setRequestId(requestId: string) {
     this.requestId = requestId;
+  }
+
+  setClient(client: string) {
+    this.client = client;
   }
 
   info(message: string, meta?: object) {
