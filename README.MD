@@ -1,62 +1,62 @@
-## Purpose
+# Ally GraphQL API
 
-You're tasked with Five tickets this sprint:
+A GraphQL API built with TypeScript and GraphQL Yoga.  
+Implementation demonstrates managing user addresses, creating new records, validating requests, logging important details, and returning responses with request metadata.
+---
 
-> Ticket 1:
+##  Features Implemented
 
-- Update the address schema to include a "state" field.
-  - Update typescript types to mirror schema types
+### Ticket 1: Address Schema Update
+- Added a `state` field to the address schema.  
+- Updated TypeScript types to stay consistent with the GraphQL schema.  
 
-> Ticket 2:
+### Ticket 2: Create Address Mutation
+- Implemented a mutation to save a username and address into `addresses.json`.  
+- New records are appended without overwriting existing ones.  
+- GraphQL inputs and TypeScript interfaces provide strong typing.  
 
-- Create a mutation that accepts a username and address and saves it to the addresses.json file.
-  - Follow the same pattern already in place in the "address" resolver
-  - Add types where appropriate (graph and ts)
-  - This is a create, not an update or delete. Don't smash existing records.
-  - You can use any library or tool to modify the addresses.json file. If you use a library and it has a "get" or "read" function update the "address" resolver to use the same toolset to retrieve records.
+### Ticket 3: Client Header Validation
+- Required client header for every request.  
+- Requests without this header are rejected with consistent error messages.  
 
-> Ticket 3:
+### Ticket 4: Logging Enhancement
+- Logs now include the client header along with `requestId`.  
+- Improves observability and traceability for debugging.  
 
-- Update the code to make sure the required header 'client' is set in every request.
-  - If the client header is missing, reject the request
+### Ticket 5: Response Metadata
+- Added `requestId` from the context object to all responses.  
+- Provides traceable responses with both data and metadata.  
 
-> Ticket 4:
+---
 
-- Update the logger to log the **required** header 'client' in every log
-  - follow the requestId pattern to add client header to the logs.
+## 🗄️ Database Layer
+- A dedicated database layer manages all read and write operations to `addresses.json`.  
+- Resolvers interact only with this layer instead of directly modifying the file.  
+- This abstraction keeps the code modular and allows easy migration to a real database in the future.  
 
-> Ticket 5:
+---
 
-- Append the requestId from the context object to the responses.
-  - example:
-    ```
-    {
-      "data": {
-        "address": {
-          "city": "Sometown",
-          "street": "123 Street St.",
-          "zipcode": "43215"
-        }
-      },
-      "metadata":{
-        "requestId":"123129387129831"
-      }
-    }
-    ```
+## 🔌 useHeaderValidator Plugin
+- A reusable `useHeaderValidator` Envelop plugin validates the presence of the client header for every request.  
+- Centralized validation avoids duplication of logic across resolvers and ensures uniform error handling.  
+- Includes a `skip` option for introspection queries, so tools like GraphQL Playground can still explore the schema without being blocked.  
 
-### Things to think about
+---
 
-- How can you ensure graph schema types and typescript types match?
-- How can you return a consistent user friendly error message for all resolvers?
-- How would you nest this address object inside a larger schema object containing other elements specific to a user?
-- How can you make sure you are not duplicating an implementation in every resolver? Tip: read about envelop in the resources below
+## 🛠️ Implementation Notes
 
-### Resources
+### 1. Ensuring GraphQL schema types and TypeScript types match
+- GraphQL Code Generator was used to generate TypeScript types from the schema.  
+- This guarantees consistency between schema and code, preventing runtime mismatches.  
 
-- GraphQL Yoga (v5) documentation: https://the-guild.dev/graphql/yoga-server/docs
-- Envelop (plugin) documentation: https://the-guild.dev/graphql/envelop/docs
-- Typescript: https://www.typescriptlang.org/docs/
+### 2. Returning consistent, user-friendly error messages
+- A shared error-handling pattern ensures all resolvers return clear and consistent messages.  
+- Invalid inputs or missing headers are handled gracefully without exposing internal details.  
 
-### Expectations and notes
+### 3. Nesting the address object inside a larger schema
+- The schema defines a `User` type that includes `address` as one of its fields, so the address is naturally nested under the user.  
 
-We're not expecting something that's highly polished and production ready. The purpose here is to see if you can meet the goals outlined and to evaluate the choices you've made to achieve those goals. To that end, feel free to use AI to **explain** sections of code to you, but don't use it to actually write the code. It's important that you understand what's going on in the code and can explain your choices.
+### 4. Avoiding duplication across resolvers
+- Common functionality such as header validation, logging, and error handling is implemented with Envelop plugins.  
+- This approach eliminates repeated code and keeps resolvers focused on business logic.  
+
