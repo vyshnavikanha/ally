@@ -6,15 +6,9 @@ export class Logger {
   client: string = '';
 
   constructor() {
-    const formatMeta = winston.format(info => {
-      info.client = this.client;
-      info.requestId = this.requestId;
-      return info;
-    });
-
     this.winston = winston.createLogger({
       level: 'info',
-      format: winston.format.combine(winston.format.timestamp(), formatMeta(), winston.format.json()),
+      format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
       transports: [new winston.transports.Console()],
     });
   }
@@ -28,14 +22,23 @@ export class Logger {
   }
 
   info(message: string, meta?: object) {
-    this.winston.info(message, meta);
+    this.winston.info(message, this.buildMeta(meta));
   }
 
   error(message: string, meta?: object) {
-    this.winston.error(message, meta);
+    this.winston.error(message, this.buildMeta(meta));
   }
 
   warn(message: string, meta?: object) {
-    this.winston.warn(message, meta);
+    this.winston.warn(message, this.buildMeta(meta));
+  }
+
+  private buildMeta(meta?: object) {
+    const info = { requestId: this.requestId, client: this.client };
+    if (!meta) return info;
+    if (typeof meta !== 'object') {
+      return { message: meta ?? '', ...info };
+    }
+    return { ...meta, ...info };
   }
 }
